@@ -1,6 +1,6 @@
 # rivstart-flashcards
 
-Generate Anki decks for Rivstart's ordlistor (A1+A2 & B1+B2)
+Generate Anki decks for Rivstart's ordlistor (A1+A2 & B1+B2). You can get the PDFs from [Natur & Kultur](https://www.nok.se/rivstart).
 
 
 ## How to use
