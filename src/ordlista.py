@@ -12,4 +12,4 @@ def main(a1_file, b1_file):
         create_deck('Rivstart B1+B2', b1_pairs, 'rivstart_b1b2.apkg')
 
 
-main('A1A2.pdf', 'B1B2.pdf')
+main('ordlista_a1a2.pdf', 'ordlista_b1b2.pdf')
