@@ -1,5 +1,5 @@
-from process_pdf import get_pairs
-from deck_creator import create_deck
+from ordlista.process_pdf import get_pairs
+from ordlista.deck_creator import create_deck
 
 
 def main(a1_file, b1_file):
