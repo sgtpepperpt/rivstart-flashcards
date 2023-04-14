@@ -5,11 +5,11 @@ from ordlista.deck_creator import create_deck
 def main(a1_file, b1_file):
     if a1_file:
         a1_pairs = get_pairs(a1_file)
-        create_deck('Rivstart A1+A2', a1_pairs, 'rivstart_a1a2.apkg')
+        create_deck('Rivstart A1+A2', a1_pairs, 'rivstart_a1a2_ordlista.apkg')
 
     if b1_file:
         b1_pairs = get_pairs(b1_file)
-        create_deck('Rivstart B1+B2', b1_pairs, 'rivstart_b1b2.apkg')
+        create_deck('Rivstart B1+B2', b1_pairs, 'rivstart_b1b2_ordlista.apkg')
 
 
 main('ordlista_a1a2.pdf', 'ordlista_b1b2.pdf')

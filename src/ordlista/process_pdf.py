@@ -2,8 +2,10 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from pdfminer.high_level import extract_pages
-from pdfminer.layout import LTTextLineHorizontal, LTChar, LTAnno
-from typing import Any, Iterable, List, Tuple
+from pdfminer.layout import  LTChar, LTAnno
+from typing import List, Tuple
+
+from common import extract_text, simple_font
 
 
 @dataclass
@@ -52,30 +54,10 @@ class _Marker:
             return 'MARKER CLASS'
 
 
-def _extract_text(pages):
-    lines = []
-
-    def show_ltitem_hierarchy(o: Any):
-        if isinstance(o, LTTextLineHorizontal):
-            lines.append(o)
-
-        if isinstance(o, Iterable):
-            for i in o:
-                show_ltitem_hierarchy(i)
-
-    show_ltitem_hierarchy(pages)
-    return lines
-
-
-def _simple_font(font):
-    match = re.match(r'.*\+(.*)', font)
-    return match.group(1) if match else font
-
-
 def _proccess_pdf(file):
     path = Path(file).expanduser()
     pages = extract_pages(path)
-    lines = _extract_text(pages)
+    lines = extract_text(pages)
 
     elements = []
 
@@ -93,7 +75,7 @@ def _proccess_pdf(file):
                 if not isinstance(obj, LTChar):
                     raise Exception()
 
-                elems.append(_Element(obj.get_text(), _simple_font(obj.fontname), obj.size))
+                elems.append(_Element(obj.get_text(), simple_font(obj.fontname), obj.size))
                 continue
 
             # LTAnno objs should always be separators
@@ -113,11 +95,10 @@ def _proccess_pdf(file):
 
             # join separate chars together
             prev_elem = elems[-1]
-            if isinstance(prev_elem, _Element) and _simple_font(
-                    obj.fontname) == prev_elem.font and obj.size == prev_elem.size:
+            if isinstance(prev_elem, _Element) and simple_font(obj.fontname) == prev_elem.font and obj.size == prev_elem.size:
                 prev_elem.text += obj.get_text()
             else:
-                elems.append(_Element(obj.get_text(), _simple_font(obj.fontname), obj.size))
+                elems.append(_Element(obj.get_text(), simple_font(obj.fontname), obj.size))
 
         elements.append(elems)
     return elements
